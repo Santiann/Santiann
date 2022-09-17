@@ -1,8 +1,8 @@
 ## Olá! Eu sou o João Santian
 
-- 🔭 Estou a procura de uma nova oportunidade
-- 🌱 Estudando HTML, CSS e JS
-- 😄 Pronouns: Ele/dele
+- 🔭 Me desenvolvendo profissionalmente 
+- 🌱 Estudando PHP, Python e JS
+- 😄 Pronouns: Ela/Dela
 
 
 <div align="center">
