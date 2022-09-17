@@ -2,7 +2,6 @@
 
 - 🔭 Me desenvolvendo profissionalmente 
 - 🌱 Estudando PHP, Python e JS
-- 😄 Pronouns: Ela/Dela
 
 
 <div align="center">
