@@ -1,39 +1,36 @@
-# 👋 Hi there
+# João Vitor Santian
 
-I'm João Vitor, a 20 year old technology enthusiast and currently studying the 6th period of Computer Science.
-I currently work as a Software Developer at WHB Automotive. I have a great passion for learning and am always excited to work with others, collaborating dynamically and efficiently. My communication is clear and I like to easily adapt to new challenges, always looking for continuous improvement.
+**Back-end Developer · PHP / Laravel** · Curitiba, Brazil
 
-# 🚀 Expertise
+I work on a multi-tenant financial SaaS (budget planning and P&L calculation) for a Canadian company. I took part in migrating the legacy monolith from Zend Framework / PHP 7 to Laravel / PHP 8, and today I handle L3 production support, focused on MySQL performance, asynchronous processing and financial calculation rules.
 
-Over time, I developed solid skills in several programming languages, such as PHP, Python, C, C++, Java and JavaScript. Also, master popular frameworks like Bootstrap, React, Angular and Vue. My main focus is the full statck development that I acquired with my experiences. 
+**Some results:**
+- MySQL queries on tables with tens of millions of rows: document lookup from 17.5 min to 12 s, yearly export from ~47 min to ~4 min
+- Batch rewrites of N+1 and quadratic routines: planning copy from 50 to 7 min
+- 41 async processes running on AWS SQS (FIFO), plus a new one with concurrency lock and 6.3× faster batch deletion
 
-# 💻 Tech Stack
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) 
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) 
-![JQUERY](https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white)
-![Angular](https://img.shields.io/badge/AngularJS-E23237?style=for-the-badge&logo=angularjs&logoColor=white)
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) 
-![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) 
-![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D) 
-![FLUTTER](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-![PYTHON](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
-![FLASK](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+### Stack
+
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
-![MYSQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
-![Jira](https://img.shields.io/badge/jira-%230A0FFF.svg?style=for-the-badge&logo=jira&logoColor=white) 
-![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) 
-![Trello](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white) 
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white) 
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![AWS SQS](https://img.shields.io/badge/AWS_SQS-FF4F8B?style=for-the-badge&logo=amazonsqs&logoColor=white)
+![PHPUnit](https://img.shields.io/badge/PHPUnit-3C9CD7?style=for-the-badge&logo=php&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
-# 🌐 Socials:
-[![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/joao.santian/) 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/joao-santian) [![Twitter](https://img.shields.io/badge/Twitter-%231DA1F2.svg?logo=Twitter&logoColor=white)](https://twitter.com/santian_joao) 
+### Featured projects
 
-# 📊 GitHub Stats:
-<img src="https://github-readme-stats-wheat-two-53.vercel.app/api?username=Santiann&theme=neon&hide_border=false&include_all_commits=false&count_private=false"  width="364px" />                    <img src="https://github-readme-streak-stats.herokuapp.com/?user=Santiann&theme=neon&hide_border=false"  width="400px" />
+| Project | What it is | Stack |
+|---|---|---|
+| [para-onde-foi](https://github.com/Santiann/para-onde-foi) | Personal expense tracker with goals and dashboard, tested and running in production | Laravel, Livewire, PostgreSQL, Pest, Docker |
+| [desafio-TORO](https://github.com/Santiann/desafio-TORO) | Sales incentive platform: a scoring engine credits points to sellers while respecting the campaign budget | PHP 8.3 (no framework), MySQL, React/TypeScript, Docker |
+| [gerador-de-relatorios](https://github.com/Santiann/teste-desenvolvedor-gerador-de-relatorios) | Billing app with reports built for millions of records | Laravel, Next.js/TypeScript, MySQL, Docker |
+| [FCoin](https://github.com/Santiann/Programacao-Distribuida) | Distributed transaction validation with Proof of Stake consensus and concurrent validators | Python, Flask, REST |
 
+### Contact
 
-
-![](https://github-readme-stats-wheat-two-53.vercel.app/api/top-langs/?username=Santiann&theme=neon&hide_border=false&include_all_commits=false&count_private=false&layout=compact)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/joao-santian)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:joaosantian1@gmail.com)
