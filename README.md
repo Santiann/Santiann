@@ -1,6 +1,6 @@
 # João Vitor Santian
 
-Back-end developer, PHP/Laravel. Curitiba, Brazil.
+Back-end developer.
 
 I work on a budgeting and DRE-calculation SaaS for the financial sector: a legacy Zend Framework codebase being migrated to Laravel, multi-tenant, running on real client data. Most of my day is legacy maintenance, performance work on high-volume processes, and REST APIs for internal and third-party consumers.
 
