@@ -2,11 +2,14 @@
 """
 Atualiza a seção "Projects" do README.md do perfil.
 
-Lê os repositórios públicos do usuário, filtra os que têm o tópico
-"portfolio" e reescreve o bloco entre os marcadores PROJECTS:START e
+Pega os repositórios públicos do usuário com push mais recente e, para
+cada um, detecta as tecnologias lendo os arquivos do projeto
+(composer.json, package.json, requirements.txt, Dockerfile e
+docker-compose). Reescreve o bloco entre os marcadores PROJECTS:START e
 PROJECTS:END. Sem dependências externas — só a biblioteca padrão.
 """
 
+import base64
 import json
 import os
 import pathlib
@@ -16,44 +19,62 @@ import urllib.error
 import urllib.request
 
 USER = os.environ.get("GH_USER", "Santiann")
-TOPIC = os.environ.get("GH_TOPIC", "portfolio")
+LIMIT = int(os.environ.get("PROJECTS_LIMIT", "4"))
 README = pathlib.Path(os.environ.get("README_PATH", "README.md"))
 
 START = "<!-- PROJECTS:START -->"
 END = "<!-- PROJECTS:END -->"
 
-# Tópicos que descrevem a stack e viram etiqueta no README.
-# Qualquer outro tópico do repositório é ignorado.
+# Pacotes (Composer, npm, pip) e imagens do docker-compose que viram
+# etiqueta no README, na ordem em que aparecem. O que não está aqui é
+# ignorado — senão entrariam faker, mockery, tinker e afins.
 TECH_LABELS = {
+    # Back-end
     "php": "PHP",
-    "laravel": "Laravel",
-    "livewire": "Livewire",
-    "zend": "Zend",
-    "pest": "Pest",
-    "phpunit": "PHPUnit",
-    "mysql": "MySQL",
-    "postgresql": "PostgreSQL",
-    "postgres": "PostgreSQL",
-    "sqlite": "SQLite",
-    "sqlserver": "SQL Server",
-    "mongodb": "MongoDB",
-    "docker": "Docker",
-    "javascript": "JavaScript",
-    "typescript": "TypeScript",
+    "python": "Python",
+    "laravel/framework": "Laravel",
+    "symfony/framework-bundle": "Symfony",
+    "livewire/livewire": "Livewire",
+    "flask": "Flask",
+    "django": "Django",
+    "fastapi": "FastAPI",
+    "firebase/php-jwt": "JWT",
+    "tymon/jwt-auth": "JWT",
+    "pyjwt": "JWT",
+    "jsonwebtoken": "JWT",
+    "webonyx/graphql-php": "GraphQL",
+    "nuwave/lighthouse": "GraphQL",
+    "graphql": "GraphQL",
+    "pestphp/pest": "Pest",
+    "phpunit/phpunit": "PHPUnit",
+    "pytest": "pytest",
+    # Front-end
+    "next": "Next.js",
     "react": "React",
-    "nextjs": "Next.js",
     "vue": "Vue.js",
-    "vite": "Vite",
-    "tailwind": "Tailwind",
+    "@angular/core": "Angular",
+    "typescript": "TypeScript",
     "tailwindcss": "Tailwind",
     "bootstrap": "Bootstrap",
     "alpinejs": "Alpine.js",
-    "rest-api": "REST API",
-    "graphql": "GraphQL",
-    "jwt": "JWT",
-    "python": "Python",
-    "java": "Java",
+    "chart.js": "Chart.js",
+    "vite": "Vite",
+    "jest": "Jest",
+    "vitest": "Vitest",
+    "@playwright/test": "Playwright",
+    # Dados
+    "mysql": "MySQL",
+    "mariadb": "MariaDB",
+    "postgres": "PostgreSQL",
+    "mcr.microsoft.com/mssql/server": "SQL Server",
+    "mongo": "MongoDB",
+    "redis": "Redis",
+    # Infra
+    "docker": "Docker",
 }
+
+COMPOSE_FILES = {"docker-compose.yml", "docker-compose.yaml", "compose.yml", "compose.yaml"}
+PYTHON_FILES = {"requirements.txt", "pyproject.toml", "Pipfile", "setup.py"}
 
 
 def api(url):
@@ -88,11 +109,60 @@ def fetch_repos():
     return repos
 
 
+def project_files(repo):
+    """(nome, sha) dos arquivos na raiz e um nível abaixo, fora de pastas ocultas."""
+    tree = api(
+        f"https://api.github.com/repos/{repo['full_name']}"
+        f"/git/trees/{repo['default_branch']}?recursive=1"
+    )
+    files = []
+    for entry in tree.get("tree", []):
+        parts = entry["path"].split("/")
+        if entry["type"] == "blob" and len(parts) <= 2 and not parts[0].startswith("."):
+            files.append((parts[-1], entry["sha"]))
+    return files
+
+
+def read(repo, sha):
+    blob = api(f"https://api.github.com/repos/{repo['full_name']}/git/blobs/{sha}")
+    return base64.b64decode(blob["content"]).decode("utf-8", "replace")
+
+
+def detect(repo):
+    """Chaves de TECH_LABELS encontradas nos arquivos do projeto."""
+    found = set()
+    for name, sha in project_files(repo):
+        if name == "composer.json":
+            data = json.loads(read(repo, sha))
+            found |= {"php", *data.get("require", {}), *data.get("require-dev", {})}
+        elif name == "package.json":
+            data = json.loads(read(repo, sha))
+            found |= {*data.get("dependencies", {}), *data.get("devDependencies", {})}
+        elif name in PYTHON_FILES:
+            found.add("python")
+            if name == "requirements.txt":
+                found |= {
+                    pkg.lower()
+                    for pkg in re.findall(r"^\s*([A-Za-z0-9_.-]+)", read(repo, sha), re.M)
+                }
+        elif name == "Dockerfile" or name in COMPOSE_FILES:
+            found.add("docker")
+            if name in COMPOSE_FILES:
+                # "mysql:8.0" -> "mysql"; "bitnami/redis" vale como "redis".
+                for image in re.findall(r"^\s*image:\s*[\"']?([^\s\"':]+)", read(repo, sha), re.M):
+                    found |= {image, image.rsplit("/", 1)[-1]}
+    return found
+
+
 def tech_line(repo):
+    try:
+        found = detect(repo)
+    except (urllib.error.URLError, ValueError) as err:
+        print(f"Aviso: não li os arquivos de {repo['name']}: {err}", file=sys.stderr)
+        found = set()
     labels = []
-    for topic in repo.get("topics") or []:
-        label = TECH_LABELS.get(topic)
-        if label and label not in labels:
+    for key, label in TECH_LABELS.items():
+        if key in found and label not in labels:
             labels.append(label)
     if not labels and repo.get("language"):
         labels.append(repo["language"])
@@ -101,10 +171,7 @@ def tech_line(repo):
 
 def render(repos):
     if not repos:
-        return (
-            "_Nenhum repositório com o tópico "
-            f"`{TOPIC}` ainda. Adicione o tópico no \"About\" do repositório._"
-        )
+        return "_Nenhum repositório público ainda._"
 
     lines = []
     for repo in repos:
@@ -135,13 +202,16 @@ def main():
     except urllib.error.HTTPError as err:
         sys.exit(f"GitHub API respondeu {err.code}: {err.reason}")
 
+    # Os de push mais recente, tirando forks, arquivados e o próprio
+    # repositório do perfil (que tem o mesmo nome do usuário).
     selected = [
         r for r in repos
-        if TOPIC in (r.get("topics") or [])
-        and not r.get("fork")
+        if not r.get("fork")
         and not r.get("archived")
+        and r["name"].lower() != USER.lower()
     ]
     selected.sort(key=lambda r: r.get("pushed_at") or "", reverse=True)
+    selected = selected[:LIMIT]
 
     block = f"{START}\n\n{render(selected)}\n\n{END}"
     updated = re.sub(

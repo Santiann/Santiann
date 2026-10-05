@@ -27,7 +27,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_USER: ${{ github.repository_owner }}
-          GH_TOPIC: portfolio
+          PROJECTS_LIMIT: "4"
         run: python scripts/update_projects.py
 
       - name: Commitar se houve mudança
