@@ -8,6 +8,12 @@ I work on a budgeting and DRE-calculation SaaS for the financial sector: a legac
 
 <!-- PROJECTS:START -->
 
+### [Pokedex--API](https://github.com/Santiann/Pokedex--API)
+
+Serviço de consulta para informações de Pokémons de 0 à 150.
+
+`React · TypeScript · Tailwind · Vite · Vitest · Docker`
+
 ### [billing-reports](https://github.com/Santiann/billing-reports)
 
 Faturamento com relatório de cobranças para milhões de registros, com juros compostos calculados em SQL.
@@ -25,11 +31,5 @@ Plataforma de incentivo de vendas: motor de pontuação que respeita verba de ca
 App de controle de gastos pessoais com metas, dashboard e autenticação.
 
 `PHP · Laravel · Livewire · Pest · Tailwind · Chart.js · Vite · PostgreSQL · Docker`
-
-### [vehicles-saas](https://github.com/Santiann/vehicles-saas)
-
-CRUD de veículos em Laravel com autenticação, upload de imagens, validação de placa Mercosul e chassi e auditoria.
-
-`PHP · Laravel · PHPUnit · Tailwind · Alpine.js · Vite`
 
 <!-- PROJECTS:END -->
